@@ -1,46 +1,25 @@
-import { Alert, Grid, TextField, Typography } from '@mui/material';
-import React, { ChangeEvent, useState } from 'react';
+import { Typography } from '@mui/material';
+import React from 'react'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../Store/store';
+import FormSection from './FormSection';
 
-interface FormState{
-    email:string;
-    firstName:string;
-    lastName:string;
-    website:string;
-    phone:string;
-}
-const initialState:FormState ={
-    email:"",
-    firstName:"",
-    lastName:"",
-    website:"",
-    phone:""
-
-}
-// interface FormState {
-//     username: string;
-//     email: string;
-//     password: string;
-//   }
+const Project:React.FC = () => {
   
-const Project:React.FC=()=>{
-    const [form, setForm] = useState<FormState>(initialState);
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
-        setForm({ ...form, [event.target.name]: event.target.value });
     const project = {
         projectName: '',
         keywords: '',
         projectLink: '',
         projectDescription: [''],
-    };
-
-
-    return(
-        <React.Fragment>
-        <Typography variant="h6" gutterBottom>
-            Project Details
-        </Typography>
-        {/* <FormSection input={project} name="Project" section="projects" resume={resume} /> */}
-    </React.Fragment>
-    )
+    }
+return (
+  <React.Fragment>
+      <Typography variant="h6" gutterBottom>
+         Project Details
+      </Typography>
+      <FormSection input={project} name="Project" section="projects" />
+  </React.Fragment>
+);
 }
+
 export default Project

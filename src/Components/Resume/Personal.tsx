@@ -1,5 +1,9 @@
 import { Alert, Grid, TextField, Typography } from '@mui/material';
+import { AppDispatch, RootState } from "../../Store/store";
 import React, { ChangeEvent, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { setPersonal } from '../../Store/reducers/ResumeReducer';
+import { useDispatch } from "react-redux";
 interface FormState{
     email:string;
     firstName:string;
@@ -16,9 +20,14 @@ const initialState:FormState ={
 }
  
 const Personal:React.FC=()=>{
+    const dispatch = useDispatch<AppDispatch>();
+    const user=useSelector((state:RootState)=>state.resume.personal) 
+    console.log("resume",user);
     const [form, setForm] = useState<FormState>(initialState);
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
-        setForm({ ...form, [event.target.name]: event.target.value });
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) =>{
+        setForm({ ...form, [event.target.name]: event.target.value } );
+        dispatch(setPersonal(form));
+    }
 const [errorText, setErrorText] = useState<FormState>({
     email: '',
     firstName: '',
