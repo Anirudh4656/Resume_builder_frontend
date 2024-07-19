@@ -24,6 +24,7 @@ const Personal:React.FC=()=>{
     const user=useSelector((state:RootState)=>state.resume.personal) 
     console.log("resume",user);
     const [form, setForm] = useState<FormState>(initialState);
+    
     const handleChange = (event: ChangeEvent<HTMLInputElement>) =>{
         setForm({ ...form, [event.target.name]: event.target.value } );
         dispatch(setPersonal(form));

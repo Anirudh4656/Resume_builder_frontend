@@ -5,7 +5,8 @@ import { RootState } from '../../Store/store';
 import FormSection from './FormSection';
 
 const Achievement:React.FC = () => {
-  
+  const user=useSelector((state:RootState)=>state.resume)
+  console.log("Achievement",user); 
   const achievement = {
     title: '',
     date: '',

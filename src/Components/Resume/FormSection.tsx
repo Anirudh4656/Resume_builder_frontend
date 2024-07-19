@@ -1,34 +1,41 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, {  useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../Store/store';
-import { addSectionItem, ResumeState } from '../../Store/reducers/ResumeReducer';
+import { Achievements, addSectionItem, Education, Experience, Personal, Projects, ResumeSection, ResumeState, Skills } from '../../Store/reducers/ResumeReducer';
 import FormInput from './FormInput';
+import debounce from 'lodash/debounce';
 
-// Define the type for form props
-interface FormProps {
-    input: any; // Change `any` to a more specific type if possible
+interface FormInputProps<T> {
+    input: T; 
     name: string;
-    section: keyof ResumeState;
+    section: ResumeSection;
 }
 
-const FormSection: React.FC<FormProps> = ({ input, name, section }) => {
+const FormSection = <T extends Personal | Education | Experience | Skills | Projects | Achievements,>({ input, name, section }: FormInputProps<T>) => {
     const dispatch = useDispatch<AppDispatch>();
-    const user = useSelector((state: RootState) => state.resume[section]);
-    console.log("newSuser",user);
-    console.log("section",section);
-    const [newSection, setNewSection] = useState(user);
+    const user = useSelector((state: RootState) => state.resume[section] as T[]);
+    const [newSection, setNewSection] = useState<T[]>(user);
+    const [formState, setFormState] = useState<T>();
+    // console.log("newSuser",user);
+    // console.log("section",section);
+
     const blankSection = input;
-console.log("blanksection",blankSection)
+// console.log("blanksection",blankSection)
     const addSection = () => {
         setNewSection([...newSection, { ...blankSection }]);
         console.log("newSection",newSection)
         dispatch(addSectionItem({ section, item: blankSection }));
     };
-
-    const update = (index: number, updatedItem: any) => {
-        const updatedSection = newSection.map((item, i) => (i === index ? updatedItem : item));
-        setNewSection(updatedSection);
+    const debouncedDispatch = useCallback(debounce((section: ResumeSection, updatedItem: T) => {
         dispatch(addSectionItem({ section, item: updatedItem }));
+    },7 * 24 * 60 * 60 * 1000), [dispatch]);
+
+    const update = (index: number, updatedItem:T) => {
+      
+        const updatedSection = newSection.map((item, i) => (i === index ? updatedItem : item));
+        // console.log("pdatedSection",updatedSection)
+        setNewSection(updatedSection);
+        debouncedDispatch(section, updatedItem);
     };
 
     return (

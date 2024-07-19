@@ -1,6 +1,5 @@
 import React from 'react';
 import { CssBaseline, AppBar, Paper, Stepper, Step, StepLabel, Button, ListItem, ListItemText } from '@mui/material';
-// import { jsPDF } from 'jspdf';
 import Personal from './Personal';
 import Education from './Education';
 import Experience from './Experience';
@@ -8,14 +7,19 @@ import Project from './Project';
 import Skill from './Skill';
 import Achievement from './Achievement';
 import Template from './Template';
-// import HiddenResume from './templates/HiddenResume';
-
-
+import { useSelector } from 'react-redux';
+import { RootState } from '../../Store/store';
+import { useSubmitResumeMutation } from '../../Services/resume';
+// import HiddenResume from '../templates/HiddenResume';
+import { renderPreview } from '../../Store/reducers/previewImage';
+import HiddenResume from '../templates/HiddenResume';
 
 const Builder = () => {
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'Achievements', 'Template'];
-
+    const user = useSelector((state: RootState) => state.resume);
+    const previewImage = useSelector((state: RootState) => state.preview.image);
+    const [submitResume] = useSubmitResumeMutation();
     function getStepContent(step:any) {
         switch (step) {
             case 0: return <Personal />;
@@ -61,8 +65,15 @@ const generatePdf=()=>{
     //     }
     // };
 
-    const clickSave = (event:any) => {
+    const clickSave = async(event:any) => {
         if (event) event.preventDefault();
+        try{
+console.log("in click save",user);
+const response =await submitResume(user).unwrap();
+console.log("response",response);
+        }catch(e){
+           console.log(e)
+        }
         // if (props.resume._id) {
         //     props.updateData(token, props.resume);
         // } else if (token) {
@@ -145,10 +156,20 @@ const generatePdf=()=>{
                         </React.Fragment>
                     </Paper>
                 </main>
-                  
+                <div >
+                    {previewImage ? <img id='preview' alt='preview'  src={ previewImage} /> : <></>}
+                </div>
                 </div>
            
-            {/* {props.resume.template ? <HiddenResume id={"pdf"} style={{ display: 'none', maxHeight: '100%', maxWidth: '100%', position: 'absolute', left: 0, top: 0 }} /> : <div id={"pdf"}></div>} */}
+                {previewImage && (
+                    <div>
+                        <img id='preview' alt='preview' src={previewImage} />
+                    </div>
+                )}
+                <HiddenResume
+                    id={user.template ? 'template1' : ''}
+                    style={{ display: 'none', maxHeight: '100%', maxWidth: '100%', position: 'absolute', left: 0, top: 0 }}
+                />
         </React.Fragment>
     );
 };

@@ -5,7 +5,8 @@ import { RootState } from '../../Store/store';
 import FormSection from './FormSection';
 
 const Experience:React.FC = () => {
-  
+  const user=useSelector((state:RootState)=>state.resume.experience) 
+    console.log("experiejnce",user);
   const workEx = {
     title: "",
     organisation: "",

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import _ from 'lodash';
 import { Alert, Grid, TextField } from '@mui/material';
 import Description from './Descriptions';
@@ -6,17 +6,21 @@ import Description from './Descriptions';
 
 
 interface FormInputProps {
-    input: Record<string, any>; // Adjust if you have a more specific type
-    section: any[]; // Adjust if you have a more specific type
+    input: Record<string, any>; 
+    section: any[]; 
     update: any;
     id: number;
     name: string;
 }
 
 export default function FormInput(props: FormInputProps) {
-    console.log("forminput",props);
+    // console.log("forminput",props);
     const [errorText, setErrorText] = React.useState<Record<string, string>>({});
     const [minSize, setMinSize] = React.useState(50);
+    const [localSection, setLocalSection] = useState(props.section[props.id]);
+
+
+
 
     const validateInput = (id: string, name: string, input: string) => {
         let errorMessage = '';
@@ -41,12 +45,12 @@ export default function FormInput(props: FormInputProps) {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, name, value } = e.target;
-        const updatedSection = [...props.section];
         validateInput(id, name, value);
         const updatedValue = name === 'keywords' ? value.split(',') : value;
-        updatedSection[props.id][name] = updatedValue;
-        //dispatch updated section
-        props.update(updatedSection);
+        const updatedSection = { ...localSection, [name]: updatedValue };
+        console.log("updatedSection",updatedSection)
+        setLocalSection(updatedSection);
+        props.update(id, updatedSection);
     };
 
     const inputAttributes = (item: string) => {
@@ -82,13 +86,13 @@ export default function FormInput(props: FormInputProps) {
                                         id={`${name}-${idx}`}
                                         name={name[0]}
                                         label={(name[0] === 'keywords') ? (_.startCase(name[0]) + ' (separated by a `,`)') : _.startCase(name[0])}
-                                        value={props.section[props.id][name[0]]}
+                                        value={localSection[name[0]] || ''}
                                         onChange={handleChange}
                                             type={inputAttributes(name[0]).type}
                                             InputLabelProps={{
                                                 shrink: (inputAttributes(name[0]).type === 'date' ? true :
                                                     props.section[props.id][name[0]] ? true : false),
-                                                //color: props.section[props.id][name[0]].length < 3 ? 'primary' : 'secondary'
+                                            
                                             }}
                                         error={Boolean(errorText[`${name}-${idx}`])}
                                         fullWidth

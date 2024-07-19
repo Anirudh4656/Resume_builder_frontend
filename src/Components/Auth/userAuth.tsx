@@ -33,6 +33,7 @@ interface FormState {
 const initialState: FormState = { username: "", email: "", password: "" };
 
 const UserAuth: React.FC = () => {
+  
   const navigate = useNavigate();
   const theme = useTheme();
   const [form, setForm] = useState<FormState>(initialState);

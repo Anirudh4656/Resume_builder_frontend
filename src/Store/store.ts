@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducers from "./reducers/authReducers";
 import { userApi } from "../Services/api";
 import ResumeReducer from "./reducers/ResumeReducer";
+import previewReducer from "./reducers/previewImage";
 import { resumeApi } from "../Services/resume";
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -18,6 +19,9 @@ export const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
     resume: ResumeReducer,
     [resumeApi.reducerPath]: resumeApi.reducer,
+    preview: previewReducer,
+    
+
    
   },
 

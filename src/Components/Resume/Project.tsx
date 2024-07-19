@@ -8,7 +8,7 @@ const Project:React.FC = () => {
   
     const project = {
         projectName: '',
-        keywords: '',
+        keywords: [''],
         projectLink: '',
         projectDescription: [''],
     }

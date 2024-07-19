@@ -1,65 +1,69 @@
-import React from 'react';
-import { Alert, Box, Grid, List, ListItem, ListItemIcon, ListItemText, TextField, Typography } from '@mui/material';
-// import { LocalOffer, Web, DeveloperMode } from '@material-ui/icons';
+import React, { ChangeEvent, useState } from 'react';
+import { Alert, Box, Button, Grid, List, ListItem, ListItemIcon, ListItemText, TextField, Typography } from '@mui/material';
+import {setTitle} from '../../Store/reducers/ResumeReducer';
+import { AppDispatch, RootState } from '../../Store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import templates from '../templates/templates';
+import { setTemplate } from '../../Store/reducers/ResumeReducer';
+import { useNavigate } from 'react-router-dom';
+const Template:React.FC = () => {
+  const title=useSelector((state:RootState)=>state.resume.title) 
+  const template=useSelector((state:RootState)=>state.resume.template) 
+  const dispatch = useDispatch<AppDispatch>();
+  const [form, setForm] = useState<string>("");
+  const navigate = useNavigate()
+  const handleChange=(event: ChangeEvent<HTMLInputElement>)=>{
+ ;
+    setForm(()=>event.target.value);
+  dispatch(setTitle(form))
+  //use state
+    // validateInput(value)
+  }
+  const handleClick =(template:any) => {
+  //   console.log(template,"template")
+  console.log("handleClick",template);
+   dispatch(setTemplate(template));
+    // const update = 'update'
+    navigate(`/${template}`)
+   
+}
 
-const Template = () => {
+  console.log("title",template);
   return (
-   <Grid>
-      <Grid item xs={12} md={5}>
-        <Typography variant="h5" style={{ fontWeight: 'bold', marginBottom: 16 }}>
-          Template
-        </Typography>
-        <List>
-          <ListItem>
-            <ListItemIcon>
-              {/* <LocalOffer /> */}
-            </ListItemIcon>
-            <ListItemText
-              primary={<Typography variant="h6">Femicam 1928.id</Typography>}
-              secondary={<Typography variant="body1" style={{ color: '#666' }}>Front-End Developer (Self-Employed)</Typography>}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              {/* <Web /> */}
-            </ListItemIcon>
-            <ListItemText
-              primary={<Typography variant="h6">Ciptaloka.com</Typography>}
-              secondary={<Typography variant="body1" style={{ color: '#666' }}>Front-End Developer (Self-Employed)</Typography>}
-            />
-          </ListItem>
-        </List>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <Typography variant="h5" style={{ fontWeight: 'bold', marginBottom: 16 }}>
-          Skills
-        </Typography>
-        <Box display="flex" flexWrap="wrap">
-          <Typography variant="body1" style={{ marginRight: 8 }}>
-            Languages:
-          </Typography>
-          <Typography variant="body1">
-            JavaScript, TypeScript, HTML, CSS
-          </Typography>
-        </Box>
-        <Box display="flex" flexWrap="wrap">
-          <Typography variant="body1" style={{ marginRight: 8 }}>
-            Libraries:
-          </Typography>
-          <Typography variant="body1">
-            React, React Native, Redux, Next.js, Tailwind CSS
-          </Typography>
-        </Box>
-        <Box display="flex" flexWrap="wrap">
-          <Typography variant="body1" style={{ marginRight: 8 }}>
-            Tools:
-          </Typography>
-          <Typography variant="body1">
-            Git, Github, VSCode, Figma, Jira
-          </Typography>
-        </Box>
-      </Grid>
-    </Grid>
+    <React.Fragment>
+            <h5>Choose Template</h5>
+            <React.Fragment>
+                <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        <TextField
+                            required
+                            id="title"
+                            name="title"
+                            label="Title"
+                            
+                            onChange={handleChange}
+                            
+                            fullWidth
+                        />
+                    </Grid>
+                    {/* {(errorText) ?
+                        <Alert className={classes.alert} severity="error">{errorText}</Alert> : <div></div>
+                    } */}
+                    {templates.map((template:any, index) => (
+                        <Grid key={index} item xs={12}  >
+                          {template}
+                            <Button onClick={() =>  handleClick(template)}
+                                variant="contained"
+                                color="primary"
+                              
+                            >
+                                {template}
+                            </Button>
+                        </Grid>
+                    ))}
+                </Grid>
+            </React.Fragment>
+        </React.Fragment >
   );
 };
 

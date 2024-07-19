@@ -11,7 +11,7 @@ const Education:React.FC = () => {
     degree: "",
     startDate: "",
     endDate: "",
-    gpa: ""
+    gpa: 0
 };
 return (
   <React.Fragment>
