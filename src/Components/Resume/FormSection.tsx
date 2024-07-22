@@ -1,7 +1,7 @@
 import React, {  useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../Store/store';
-import { Achievements, addSectionItem, Education, Experience, Personal, Projects, ResumeSection, ResumeState, Skills } from '../../Store/reducers/ResumeReducer';
+import { Achievements, addSectionItem,  updateSectionItem,Education, Experience, Personal, Projects, ResumeSection, ResumeState, Skills } from '../../Store/reducers/ResumeReducer';
 import FormInput from './FormInput';
 import debounce from 'lodash/debounce';
 
@@ -26,16 +26,20 @@ const FormSection = <T extends Personal | Education | Experience | Skills | Proj
         console.log("newSection",newSection)
         dispatch(addSectionItem({ section, item: blankSection }));
     };
-    const debouncedDispatch = useCallback(debounce((section: ResumeSection, updatedItem: T) => {
-        dispatch(addSectionItem({ section, item: updatedItem }));
-    },7 * 24 * 60 * 60 * 1000), [dispatch]);
+  
 
     const update = (index: number, updatedItem:T) => {
-      
+        console.log("updated Section",updatedItem)
         const updatedSection = newSection.map((item, i) => (i === index ? updatedItem : item));
+        console.log("upSection",updatedSection)
         // console.log("pdatedSection",updatedSection)
-        setNewSection(updatedSection);
-        debouncedDispatch(section, updatedItem);
+        if(updatedSection){
+            setNewSection(updatedSection);
+            // setFormState(updatedSection);
+        }
+       
+        console.log("new Section",newSection)
+        dispatch(updateSectionItem({ section, index,item:updatedItem}));
     };
 
     return (
