@@ -20,7 +20,9 @@ export default function FormInput(props: FormInputProps) {
     const [localSection, setLocalSection] = useState(props.section[props.id]);
 
 
-
+    // useEffect(() => {
+    //     setLocalSection(props.section[props.id]);
+    // }, [props.section, props.id]);
 
     const validateInput = (id: string, name: string, input: string) => {
         let errorMessage = '';
@@ -50,7 +52,9 @@ export default function FormInput(props: FormInputProps) {
         const updatedSection = { ...localSection, [name]: updatedValue };
         console.log("updatedSection",updatedSection)
         setLocalSection(updatedSection);
-        props.update(id, updatedSection);
+        console.log("local",localSection,id)
+        console.log("id",id);
+        props.update(props.id, localSection);
     };
 
     const inputAttributes = (item: string) => {
@@ -90,9 +94,7 @@ export default function FormInput(props: FormInputProps) {
                                         onChange={handleChange}
                                             type={inputAttributes(name[0]).type}
                                             InputLabelProps={{
-                                                shrink: (inputAttributes(name[0]).type === 'date' ? true :
-                                                    props.section[props.id][name[0]] ? true : false),
-                                            
+                                                shrink: inputAttributes(name[0]).shrink || Boolean(localSection[name[0]]),
                                             }}
                                         error={Boolean(errorText[`${name}-${idx}`])}
                                         fullWidth
