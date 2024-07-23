@@ -11,6 +11,7 @@ const Experience:React.FC = () => {
     title: "",
     organisation: "",
     startDate: "",
+    keywords: [''],
     endDate: "",
     description: [""]
 };

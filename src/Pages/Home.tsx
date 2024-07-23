@@ -2,13 +2,18 @@ import React from "react";
 import NavBar from "./Navbar";
 
 import { Button, Container, Grid, Typography } from "@mui/material";
+import { RootState } from "../Store/store";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-// import { useHistory } from "react-router-dom";
+
 
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
+  const user=useSelector((state:RootState)=>state.auth.user) 
 const handleClick=()=>{
-    
+  navigate("/builder");
 }
   // const history = useHistory();
   return (
@@ -30,7 +35,8 @@ const handleClick=()=>{
              
             >
               BUILD MY RESUME
-            </Button>
+            </Button> 
+           
           </div>
          
         </Grid>

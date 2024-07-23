@@ -18,7 +18,7 @@ return (
       <Typography variant="h6" gutterBottom>
           Achievement Details
       </Typography>
-      <FormSection input={achievement} name="Achievement" section="achievements" />
+      {/* <FormSection input={achievement} name="Achievement" section="achievements" /> */}
   </React.Fragment>
 );
 }

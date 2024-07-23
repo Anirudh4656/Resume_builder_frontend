@@ -6,9 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import templates from '../templates/templates';
 import { setTemplate } from '../../Store/reducers/ResumeReducer';
 import { useNavigate } from 'react-router-dom';
+import { useSubmitResumeMutation } from '../../Services/resume';
 const Template:React.FC = () => {
   const title=useSelector((state:RootState)=>state.resume.title) 
+  const user = useSelector((state: RootState) => state.resume);
   const template=useSelector((state:RootState)=>state.resume.template) 
+  const [submitResume] = useSubmitResumeMutation();
   const dispatch = useDispatch<AppDispatch>();
   const [form, setForm] = useState<string>("");
   const navigate = useNavigate()
@@ -19,14 +22,23 @@ const Template:React.FC = () => {
   //use state
     // validateInput(value)
   }
-  const handleClick =(template:any) => {
-  //   console.log(template,"template")
-  console.log("handleClick",template);
-   dispatch(setTemplate(template));
-    // const update = 'update'
-    navigate(`/${template}`)
-   
-}
+  const handleClick = async (template: any) => {
+    dispatch(setTemplate(template));
+    
+    // Send data to backend
+    try {
+        navigate(`/${template}`);
+        const response = await submitResume(user).unwrap();
+        
+      console.log("Template submitted:", response);
+      
+      // Navigate after successful submission
+     
+    } catch (error) {
+      console.error("Failed to submit template:", error);
+    }
+  };
+
 
   console.log("title",template);
   return (

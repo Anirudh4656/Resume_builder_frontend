@@ -44,7 +44,7 @@ const FormSection = <T extends Personal | Education | Experience | Skills | Proj
 
     return (
         <div>
-          
+            
             {newSection.map((item, index) => (
                 <div key={index}>
                     <FormInput section={[...newSection]} id={index} update={update} input={input} name={name}  />

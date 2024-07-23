@@ -4,13 +4,6 @@ interface User {
   email?: string;
   user?: string;
   password?: string;
-  role?: string;
-  apiKey?: string;
-  apiUsage?: number;
-  isBlocked?: boolean;
-  plan?: string[];
-  publicSecret?: string;
-  storageUsage?: number;
   username?: string;
   _id?: string;
 }

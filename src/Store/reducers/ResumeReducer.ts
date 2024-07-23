@@ -19,6 +19,7 @@ export interface Personal {
   export interface Experience {
     title: string;
     organisation: string;
+    keywords: string[];
     startDate: string;
     endDate: string;
     description: string[];
@@ -46,12 +47,12 @@ export interface Personal {
     title: string;
     template?: string;
     image?:string;
-    personal: Personal[];
+    personal: Personal;
     education:Education[];
     experience:Experience[];
     skills:Skills[];
     projects:Projects[];
-    achievements:Achievements[]
+    // achievements:Achievements[]
     
   }
 
@@ -61,7 +62,7 @@ const initialState: ResumeState = {
     title: '',
     template: '',
    image:'',
-    personal: [
+    personal: 
         {
             firstName: "",
             lastName: "",
@@ -69,7 +70,7 @@ const initialState: ResumeState = {
             phone: "",
             website: ""
         }
-    ],
+    ,
     education: [
         {
             university: "",
@@ -85,6 +86,7 @@ const initialState: ResumeState = {
             organisation: "",
             startDate: "",
             endDate: "",
+            keywords: [''],
             description: ['']
         }
     ],
@@ -102,17 +104,17 @@ const initialState: ResumeState = {
             projectLink: ''
         }
     ],
-    achievements: [
-        {
-            title: '',
-            date: '',
-            organisation: '',
-            description: ['']
-        }
-    ],
+    // achievements: [
+    //     {
+    //         title: '',
+    //         date: '',
+    //         organisation: '',
+    //         description: ['']
+    //     }
+    // ],
 };
 
-export type ResumeSection = Exclude<keyof ResumeState, 'title' | 'template' |'image'>
+export type ResumeSection = Exclude<keyof ResumeState, 'title' | 'template' |'image' |'personal'>
 type AddSectionItemPayload<T extends ResumeSection> = {
     section: T;
     item: ResumeState[T][number];
@@ -156,9 +158,9 @@ const resumeSlice = createSlice({
         setProjects: (state, action) => {
             state.projects = action.payload;
         },
-        setAchievements: (state, action) => {
-            state.achievements = action.payload;
-        },
+        // setAchievements: (state, action) => {
+        //     state.achievements = action.payload;
+        // },
     },
 });
 
@@ -171,8 +173,7 @@ export const {
     setEducation,
     setExperience,
     setSkills,
-    setProjects,
-    setAchievements,
+    setProjects
 } = resumeSlice.actions;
 
 export default resumeSlice.reducer;

@@ -1,145 +1,458 @@
-import React, { useEffect } from 'react';
-import { Container, Grid, Typography, Divider, Box, Paper, Stack, Chip } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
-import { renderPreview } from '../../../Store/reducers/previewImage';
-import { RootState } from '../../../Store/store';
-import { Code, Language, School, Work } from '@mui/icons-material';
+import React, { useEffect } from "react";
+import { Container, Grid, Typography, Box, Chip } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { useTheme } from "@mui/material/styles";
+import { renderPreview } from "../../../Store/reducers/previewImage";
+import { RootState } from "../../../Store/store";
+import {
+  LocationOn as LocationOnIcon,
+  Mail as MailIcon,
+  Language as LanguageIcon,
+  LinkedIn as LinkedInIcon,
+  GitHub as GitHubIcon,
+  Twitter as TwitterIcon,
+} from "@mui/icons-material";
 
 const Template2: React.FC = () => {
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(renderPreview());
-    }, [dispatch]);
+  const dispatch = useDispatch();
+  const theme = useTheme();
 
-    const resume = useSelector((state: RootState) => state.resume);
-    const location = useLocation();
+  useEffect(() => {
+    dispatch(renderPreview() as any);
+  }, [dispatch]);
 
-    return (
-        <Container  id="template" maxWidth="md">
-              
-            <Box my={4} p={2}>
-                <Paper elevation={3} sx={{ p: 4 }}>
-                    {/* Header Section */}
-                    <Box textAlign="center">
-                        <Typography variant="h3" component="h1" gutterBottom>
-                            Enji Kusnadi
-                        </Typography>
-                        <Typography variant="h5" component="h2" gutterBottom>
-                            Front-End Developer · UI/UX Designer
-                        </Typography>
-                        <Stack direction="row" justifyContent="center" spacing={2}>
-                            <Link target="_blank" to={'https://twitter.com'}>twitter.com</Link>
-                            <Link target="_blank" to={'https://dribbble.com'}>dribbble.com</Link>
-                            <Link target="_blank" to={'https://github.com'}>github.com</Link>
-                            <Link to={'mailto:email@example.com'}>email@example.com</Link>
-                        </Stack>
-                    </Box>
+  const resume = useSelector((state: RootState) => state.resume);
+  console.log("resume", resume);
 
-                    <Divider sx={{ my: 4 }} />
+  return (
+    <Container id="template">
+      {/* Header */}
+      <Box
+        sx={{
+          flex: 1,
+          height: "320px",
+          margin: 0,
+          backgroundImage: 'url("/light.jpeg") !important',
+          backgroundRepeat: "no-repeat",
+          display: "flex",
+          flexDirection: "column",
+          backgroundColor: theme.palette.background.default,
+          "@media print": {
+            backgroundImage: 'url("/light.jpeg")',
+            WebkitPrintColorAdjust: "exact",
+            printColorAdjust: "exact",
+            backgroundColor: "white",
+          },
+          overflowX: {
+            xs: "auto",
+            md: "unset",
+          },
+          overflowY: {
+            xs: "auto",
+            md: "unset",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            height: "104px",
+            marginTop: "40px",
+            textAlign: "center",
+          }}
+        >
+          <Box
+            sx={{
+              height: "52px",
+              marginBottom: "20px",
+            }}
+          >
+            <Typography
+              sx={{
+                fontFamily: "Plus Jakarta Sans, sans-serif",
+                fontWeight: 800,
+                fontSize: "28px",
+                lineHeight: "35.28px",
+                color: "#334155",
+              }}
+            >
+              {resume.personal.firstName || "Anirudh"}{" "}
+              {resume.personal.lastName || "Sharma"}
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: "Plus Jakarta Sans, sans-serif",
+                fontWeight: 400,
+                fontSize: "18px",
+                lineHeight: "25px",
+                color: "#334155",
+                marginTop: "10px",
+              }}
+            >
+             
+                {resume.title ||"None"}
+            </Typography>
+          </Box>
 
-                    {/* Education Section */}
-                    <Box mb={4}>
-                       
-                        <Box display="flex" flexDirection="row" justifyContent="space-between" flexWrap="wrap">
-                        <Box> <Typography variant="h4" gutterBottom>
-                             Education
-                        </Typography></Box>
-                            <Box>
-                                <Typography variant="h6">STMIK Indonesia Mandiri</Typography> </Box>
+          <Box sx={{ margin: "82px" }}>
+            <Grid container spacing={1} justifyContent="center">
+              <Grid item>
+                <LocationOnIcon fontSize="small" />
+                {resume.personal.website || "Chandigarh"}
+              </Grid>
 
-                                 <Box> <Typography variant="body1" color="textSecondary">Teknik Informatika (S1)</Typography></Box>
-                                 <Box>  <Typography variant="body1" color="textSecondary">Oct 2018 - present</Typography></Box>
-                           
-                        </Box>
-                    </Box>
+              <Grid item>
+                <MailIcon fontSize="small" />
+                {resume.personal.email || "anirudh4656@gmail.com"}
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              sx={{ marginTop: "20px" }}
+            >
+              <Grid item>
+                <Chip
+                variant="outlined"
+                  icon={<LanguageIcon />}
+                  label={resume.personal.website}
+                  
+                />
+              </Grid>
+              <Grid item>
+              <Chip
+                variant="outlined"
+                  icon={<LanguageIcon />}
+                  label={resume.personal.website}
+                  
+                />
+              </Grid>
+              <Grid item>
+              <Chip
+                variant="outlined"
+                  icon={<LanguageIcon />}
+                  label={resume.personal.website}
+                  
+                />
+              </Grid>
+              <Grid item>
+                <Chip
+                 variant="outlined"
+                  icon={<TwitterIcon />}
+                  label={resume.personal.website}
+                  
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Box>
 
-                    <Divider sx={{ my: 4 }} />
+      <Box
+        sx={{
+          display: "flex",
+          height:'87px',
+          gap: "2",
+          margin: "0px 53px",
+          alignItem:'center',
+          borderBottom: "1px inset",
+        }}
+      >
+        <Box
+          sx={{
+            width: "115px",
+          }}
+        >
+          <Typography
+            variant="h4"
+            component="h4"
+            sx={{
+              fontFamily: "Poppins",
+              fontSize: "20px", //14
+              lineHeight: "19.6px", //12.6
+              fontWeight: "500",
+              color: "#334155",
+            }}
+          >
+            Education
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            flex: "1",
+            display: "flex",
+            flexDirection: "column",
+            gap: 1.2,
+          }}
+        >
+          {resume?.education.map((education, index) => (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  // maxWidth:"350px"
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  sx={{
+                    fontFamily: "Poppins",
+                    fontSize: "19px", //13
+                    lineHeight: "19.6px", //12.6
+                    fontWeight: "500",
+                    color: "#334155",
 
-                    {/* Experience Section */}
-                    <Box mb={4}>
-                        <Typography variant="h4" gutterBottom>
-                             Experience
-                        </Typography>
-                        <Box mb={2}>
-                            <Typography variant="h6">Femican 1928.id</Typography>
-                            <Typography variant="subtitle1" color="textSecondary">Front-End Developer (self-employed)</Typography>
-                            <Typography variant="body2" color="textSecondary">Mar 2022 - present</Typography>
-                            <ul>
-                                <li>Designing UI/UX for clients</li>
-                                <li>Developing front-end applications</li>
-                            </ul>
-                        </Box>
-                        <Box mb={2}>
-                            <Typography variant="h6">Ciptaloka.com</Typography>
-                            <Typography variant="subtitle1" color="textSecondary">Front-End Developer (self-employed)</Typography>
-                            <Typography variant="body2" color="textSecondary">Jan 2022 - Mar 2022</Typography>
-                            <ul>
-                                <li>Maintained the company’s website</li>
-                                <li>Developed mobile-friendly features</li>
-                            </ul>
-                        </Box>
-                        <Box mb={2}>
-                            <Typography variant="h6">Ciptaloka.com</Typography>
-                            <Typography variant="subtitle1" color="textSecondary">Software Developer</Typography>
-                            <Typography variant="body2" color="textSecondary">Jul 2018 - Jan 2021</Typography>
-                            <ul>
-                                <li>Developed e-commerce features</li>
-                                <li>Managed backend integrations</li>
-                            </ul>
-                        </Box>
-                    </Box>
-
-                    <Divider sx={{ my: 4 }} />
-
-                    {/* Featured Project Section */}
-                    <Box mb={4}>
-                        <Typography variant="h4" gutterBottom>
-                           Featured Project
-                        </Typography>
-                        <Typography variant="h6">SPKJIS</Typography>
-                        <Typography variant="body1" color="textSecondary">
-                            Project details and technologies used.
-                        </Typography>
-                    </Box>
-
-                    <Divider sx={{ my: 4 }} />
-
-                    {/* Skills & Tools Section */}
-                    <Box mb={4}>
-                        <Typography variant="h4" gutterBottom>
-                            Skills & Tools
-                        </Typography>
-                        <Typography variant="h6">Languages</Typography>
-                        <Stack direction="row" spacing={1} sx={{ my: 1 }}>
-                            <Chip label="HTML" />
-                            <Chip label="CSS" />
-                            <Chip label="JavaScript" />
-                            <Chip label="TypeScript" />
-                            <Chip label="PHP" />
-                        </Stack>
-                        <Typography variant="h6">Technologies</Typography>
-                        <Stack direction="row" spacing={1} sx={{ my: 1 }}>
-                            <Chip label="React" />
-                            <Chip label="Redux" />
-                            <Chip label="Node.js" />
-                            <Chip label="Express" />
-                            <Chip label="MySQL" />
-                            <Chip label="MongoDB" />
-                        </Stack>
-                        <Typography variant="h6">Tools & Software</Typography>
-                        <Stack direction="row" spacing={1} sx={{ my: 1 }}>
-                            <Chip label="VS Code" />
-                            <Chip label="Figma" />
-                            <Chip label="Adobe XD" />
-                            <Chip label="Photoshop" />
-                            <Chip label="Illustrator" />
-                        </Stack>
-                    </Box>
-                </Paper>
+                    maxWidth: "580px", //380
+                  }}
+                >
+                  {education?.university || "University of delhi"} {education?.degree || "BE"}
+                </Typography>
+                
+              </Box>
+              <Box sx={{}}>
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  sx={{
+                    fontFamily: "Poppins",
+                    fontSize: "15px", //10
+                    lineHeight: "19.6px",
+                    fontWeight: "500",
+                    color: "#334155",
+                  }}
+                >
+                  {`${education.startDate || "0"}-${education.endDate || "0"}`}
+                </Typography>
+              </Box>
             </Box>
-        </Container>
-    );
-}
+          ))}
+        </Box>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          gap: "2",
+          margin: "0px 53px",
+          borderBottom: "1px inset",
+        }}
+      >
+        <Box
+          sx={{
+            width: "115px",
+          }}
+        >
+          <Typography
+            variant="h4"
+            component="h4"
+            sx={{
+              fontFamily: "Poppins",
+              fontSize: "20px", //14
+              lineHeight: "19.6px", //12.6
+              fontWeight: "500",
+              color: "#334155",
+            }}
+          >
+            Experience
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            flex: "1",
+            display: "flex",
+            flexDirection: "column",
+            gap: 1.2,
+          }}
+        >
+          {resume?.experience.map((experience, index) => (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: "column",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent:'space-between'
+                  // maxWidth:"350px"
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  sx={{
+                    fontFamily: "Poppins",
+                    fontSize: "19px", //13
+                    lineHeight: "19.6px", //12.6
+                    fontWeight: "500",
+                    color: "#334155",
+                    justifyContent: 'space-between',
+                    maxWidth: "580px", //380
+                  }}
+                >
+                  {experience?.organisation || "75way technologies"} {experience?.title || "ASD"}
+                </Typography>
+              
+                
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  sx={{
+                    fontFamily: "Poppins",
+                    fontSize: "15px", //10
+                    lineHeight: "19.6px",
+                    fontWeight: "500",
+                    color: "#334155",
+                  }}
+                >
+                  {`${experience.startDate || "0"}-${
+                    experience.endDate || "0"
+                  }`}
+                  </Typography>
+              </Box>
+              <Box sx={{}}>
+                
+
+                  <Box sx={{ display: "flex", gap: 1, marginTop: "10px" }}>
+                  
+                    {experience.keywords.map((keyword, index) => (
+                   <Chip label={keyword} sx={{
+                    backgroundColor: "#ECEFF1",
+                    color: "#455A64",
+                    "& .MuiChip-icon": { color: "#455A64" },
+                  }} />
+                  ))}
+                  </Box>
+                  {experience.description.map((description, index) => (
+                     <Typography variant="body2" sx={{ marginBottom: "5px" }}>
+                     • {description}
+                   </Typography>
+                  ))}
+                
+              </Box>
+            </Box>
+          ))}
+        </Box>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          gap: "2",
+          margin: "0px 53px",
+          borderBottom: "1px inset",
+        }}
+      >
+        <Box
+          sx={{
+            width: "115px",
+          }}
+        >
+          <Typography
+            variant="h4"
+            component="h4"
+            sx={{
+              fontFamily: "Poppins",
+              fontSize: "20px", //14
+              lineHeight: "19.6px", //12.6
+              fontWeight: "500",
+              color: "#334155",
+            }}
+          >
+            Featured Project
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            flex: "1",
+            display: "flex",
+            flexDirection: "column",
+            gap: 1.2,
+          }}
+        >
+          {resume?.projects.map((project, index) => (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: "column",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  // maxWidth:"350px"
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  sx={{
+                    fontFamily: "Poppins",
+                    fontSize: "19px", //13
+                    lineHeight: "19.6px", //12.6
+                    fontWeight: "500",
+                    color: "#334155",
+                    justifyContent: 'space-between',
+                    maxWidth: "580px", //380
+                  }}
+                >
+                  {project?.projectName || "Resume Builder"} 
+                </Typography>
+              
+                
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  sx={{
+                    fontFamily: "Poppins",
+                    fontSize: "15px", //10
+                    lineHeight: "19.6px",
+                    fontWeight: "500",
+                    color: "#334155",
+                  }}
+                >
+                 
+                  </Typography>
+              </Box>
+              <Box sx={{}}>
+                
+
+                  <Box sx={{ display: "flex", gap: 1, marginTop: "10px" }}>
+                  {project.keywords.map((keyword, index) => (
+                    <Chip label={keyword} sx={{
+                      backgroundColor: "#ECEFF1",
+                      color: "#455A64",
+                      "& .MuiChip-icon": { color: "#455A64" },
+                    }} />
+                  ))}
+                   
+                  
+                  </Box>
+                  {project.projectDescription.map((description, index) => (
+                    <Typography variant="body2" sx={{ marginBottom: "5px" }}>
+                      • {description}
+                    </Typography>
+                  ))}
+                
+              </Box>
+            </Box>
+          ))}
+        </Box>
+      </Box>
+    </Container>
+  );
+};
 
 export default Template2;

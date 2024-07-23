@@ -19,7 +19,14 @@ export const resumeApi = createApi({
         body: resumeData,
       }),
     }),
+   sendEmail:builder.mutation<void, {pdf:any,email:any}>({
+      query: ({pdf,email}) => ({
+        url: '/send-pdf',
+        method: 'POST',
+        body: {pdf,email},
+      }),
+    }),
   }),
 });
-export const { useSubmitResumeMutation } = resumeApi;
+export const { useSubmitResumeMutation,useSendEmailMutation } = resumeApi;
 
