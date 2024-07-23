@@ -1,5 +1,6 @@
 import React from 'react';
 import { CssBaseline, AppBar, Paper, Stepper, Step, StepLabel, Button, ListItem, ListItemText } from '@mui/material';
+import { jsPDF } from 'jspdf';
 import Personal from './Personal';
 import Education from './Education';
 import Experience from './Experience';
@@ -7,19 +8,19 @@ import Project from './Project';
 import Skill from './Skill';
 import Achievement from './Achievement';
 import Template from './Template';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../Store/store';
-import { useSubmitResumeMutation } from '../../Services/resume';
-// import HiddenResume from '../templates/HiddenResume';
-import { renderPreview } from '../../Store/reducers/previewImage';
-import HiddenResume from '../templates/HiddenResume';
+import { useSelector } from 'react-redux';
+// import HiddenResume from './templates/HiddenResume';
+
+
 
 const Builder = () => {
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'Achievements', 'Template'];
-    const user = useSelector((state: RootState) => state.resume);
-    const previewImage = useSelector((state: RootState) => state.preview.image);
-    const [submitResume] = useSubmitResumeMutation();
+    const preview = useSelector((state: RootState) => state.preview);
+    if(!preview){
+        console.log("not")
+    }
     function getStepContent(step:any) {
         switch (step) {
             case 0: return <Personal />;
@@ -44,36 +45,34 @@ const Builder = () => {
     const handleBack = () => {
         setActiveStep(activeStep - 1);
     };
-const generatePdf=()=>{
 
-}
-    // const generatePdf = () => {
-    //     const img = new Image();
-    //     img.src = props.image;
-    //     const preview = document.getElementById('preview');
-    //     const width = preview.clientWidth;
-    //     const height = preview.clientHeight;
-
-    //     if (props.image) {
-    //         const pdf = new jsPDF({
-    //             orientation: height > width ? 'portrait' : 'landscape',
-    //             unit: 'pt',
-    //             format: [height, width]
-    //         });
-    //         pdf.addImage(img, 'PNG', 0, 0, width, height, 'SLOW');
-    //         pdf.save('resume.pdf');
-    //     }
-    // };
-
-    const clickSave = async(event:any) => {
-        if (event) event.preventDefault();
-        try{
-console.log("in click save",user);
-const response =await submitResume(user).unwrap();
-console.log("response",response);
-        }catch(e){
-           console.log(e)
+    const generatePdf = () => {
+        if (!preview?.image) {
+            console.error("No preview image available.");
+            return;
         }
+    
+        const img = new Image();
+        img.src = preview.image;
+    
+        img.onload = () => {
+            const pdf = new jsPDF({
+                orientation: img.height > img.width ? 'portrait' : 'landscape',
+                unit: 'pt',
+                format: [img.width, img.height]
+            });
+    
+            // Add the image to the PDF
+            pdf.addImage(img, 'PNG', 0, 0, img.width, img.height, '', 'FAST');
+            pdf.save('resume.pdf');
+        };
+    
+        img.onerror = () => {
+            console.error("Failed to load image for PDF.");
+        };
+    }
+    const clickSave = (event:any) => {
+        if (event) event.preventDefault();
         // if (props.resume._id) {
         //     props.updateData(token, props.resume);
         // } else if (token) {
@@ -99,7 +98,7 @@ console.log("response",response);
                         left: { lg: '15px' },
                         right: { xs: '20px', md: '184px', lg: 'unset' },
                         width: 'fit-content',
-                        display:  'none'
+                        
                     }}
                 >
                     Download PDF
@@ -156,20 +155,10 @@ console.log("response",response);
                         </React.Fragment>
                     </Paper>
                 </main>
-                <div >
-                    {previewImage ? <img id='preview' alt='preview'  src={ previewImage} /> : <></>}
-                </div>
+                  
                 </div>
            
-                {previewImage && (
-                    <div>
-                        <img id='preview' alt='preview' src={previewImage} />
-                    </div>
-                )}
-                <HiddenResume
-                    id={user.template ? 'template1' : ''}
-                    style={{ display: 'none', maxHeight: '100%', maxWidth: '100%', position: 'absolute', left: 0, top: 0 }}
-                />
+            {/* {props.resume.template ? <HiddenResume id={"pdf"} style={{ display: 'none', maxHeight: '100%', maxWidth: '100%', position: 'absolute', left: 0, top: 0 }} /> : <div id={"pdf"}></div>} */}
         </React.Fragment>
     );
 };

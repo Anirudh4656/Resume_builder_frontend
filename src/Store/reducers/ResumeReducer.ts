@@ -45,6 +45,7 @@ export interface Personal {
  export interface ResumeState {
     title: string;
     template?: string;
+    image?:string;
     personal: Personal[];
     education:Education[];
     experience:Experience[];
@@ -59,7 +60,7 @@ export interface Personal {
 const initialState: ResumeState = {
     title: '',
     template: '',
-   
+   image:'',
     personal: [
         {
             firstName: "",
@@ -111,7 +112,7 @@ const initialState: ResumeState = {
     ],
 };
 
-export type ResumeSection = Exclude<keyof ResumeState, 'title' | 'template'>
+export type ResumeSection = Exclude<keyof ResumeState, 'title' | 'template' |'image'>
 type AddSectionItemPayload<T extends ResumeSection> = {
     section: T;
     item: ResumeState[T][number];

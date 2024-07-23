@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Grid, Typography, Divider, Box } from '@mui/material';
 import { RootState } from '../../../../Store/store';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { renderPreview } from '../../../../Store/reducers/previewImage';
 
  const Template1:React.FC=()=> {
-    React.useEffect(() => {
-        renderPreview()
-    }, [])
+    const dispatch = useDispatch();
     const resume = useSelector((state: RootState) => state.resume);
+    const preview = useSelector((state: RootState) => state.preview);
+   console.log("previeww",preview);
+
+    useEffect(() => {
+        dispatch(renderPreview());
+    }, [dispatch]);
+   
+    const imageg = useSelector((state: RootState) => state.resume.image);
+    console.log("render preview",imageg);
     const location = useLocation();
     return (
         <div id={location.state ? '' : 'hide'}>
@@ -108,7 +115,7 @@ import { renderPreview } from '../../../../Store/reducers/previewImage';
                                     <Box className="right-content">
                                         <Box className="experience content">
                                             <Typography variant="h5" className="heading">
-                                                WORK EXPERIENCE
+                                                WORK EXPERIENCE1
                                             </Typography>
                                             <Box className="info">
                                                 {resume.experience.map((experience, index) => (

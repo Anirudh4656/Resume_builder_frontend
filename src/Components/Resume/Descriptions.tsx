@@ -1,48 +1,46 @@
+import React from 'react';
 import { Alert, Button, TextField } from '@mui/material';
-import React from 'react'
 
 interface DescriptionProps {
     sectionName: string;
     index: number;
     name: string;
-    section: { [key: string]: any }[]; // Adjust this type based on the actual structure of your section data
+    section: { [key: string]: any }[];
+    update: (index: number, section: any) => void;
 }
 
-const Description: React.FC<DescriptionProps> = ({ sectionName, index, name, section }) => {
-    
-
-    // Initial state
+const Description: React.FC<DescriptionProps> = ({ sectionName, index, name, section, update }) => {
     const [lines, setLines] = React.useState<string[]>(section[index][name] || []);
     const [errorText, setErrorText] = React.useState<Record<number, string>>({});
 
-    // Validate input
     const validateInput = (id: number, input: string) => {
+        let errorMessage = '';
         if (input.length < 3) {
-            setErrorText((prev) => ({ ...prev, [id]: 'Too Small Text' }));
+            errorMessage = 'Too Small Text';
         } else if (input.length > 100) {
-            setErrorText((prev) => ({ ...prev, [id]: 'Too Large Text' }));
-        } else {
-            setErrorText((prev) => ({ ...prev, [id]: '' }));
+            errorMessage = 'Too Large Text';
         }
+        setErrorText((prev) => ({ ...prev, [id]: errorMessage }));
     };
 
-    // Add a new line
     const addLine = () => {
         const updatedLines = [...lines, ''];
         setLines(updatedLines);
-        section[index][name] = updatedLines;
+        const updatedSection = { ...section[index], [name]: updatedLines };
+        update(index, updatedSection);
     };
 
-    // Handle change in text fields
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const id = parseInt(e.target.id, 10); // Convert id to number
+        const id = parseInt(e.target.id, 10);
         const value = e.target.value;
         validateInput(id, value);
 
         const updatedLines = [...lines];
         updatedLines[id] = value;
         setLines(updatedLines);
-        section[index][name] = updatedLines;
+
+        const updatedSection = { ...section[index], [name]: updatedLines };
+        update(index, updatedSection);
     };
 
     return (
@@ -50,7 +48,7 @@ const Description: React.FC<DescriptionProps> = ({ sectionName, index, name, sec
             {lines.map((text, idx) => (
                 <div key={idx}>
                     <TextField
-                        id={idx.toString()} // Convert idx to string
+                        id={idx.toString()}
                         name={idx.toString()}
                         label={`Description Line ${idx + 1}`}
                         value={text}
@@ -60,18 +58,16 @@ const Description: React.FC<DescriptionProps> = ({ sectionName, index, name, sec
                         fullWidth
                     />
                     {errorText[idx] && (
-                        <Alert  severity="error">
+                        <Alert severity="error">
                             {errorText[idx]}
                         </Alert>
                     )}
                 </div>
             ))}
-
             <Button
                 onClick={addLine}
                 variant="contained"
                 color="primary"
-                
             >
                 +
             </Button>

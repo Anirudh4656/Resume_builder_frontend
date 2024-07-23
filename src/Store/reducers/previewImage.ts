@@ -12,6 +12,7 @@ export const renderPreview = createAsyncThunk(
             }
             const canvas = await html2canvas(element);
             const imgData = canvas.toDataURL('image/png');
+            console.log("imgData",imgData);
             return imgData;
         } catch (error:any) {
             return rejectWithValue(error.message);

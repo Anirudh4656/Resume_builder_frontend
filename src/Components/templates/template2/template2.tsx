@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Grid, Typography, Divider, Box, Paper, Stack, Chip } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { renderPreview } from '../../../Store/reducers/previewImage';
 import { RootState } from '../../../Store/store';
 import { Code, Language, School, Work } from '@mui/icons-material';
 
 const Template2: React.FC = () => {
-    React.useEffect(() => {
-        renderPreview();
-    }, []);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(renderPreview());
+    }, [dispatch]);
 
     const resume = useSelector((state: RootState) => state.resume);
     const location = useLocation();
 
     return (
-        <Container maxWidth="md">
+        <Container  id="template" maxWidth="md">
+              
             <Box my={4} p={2}>
                 <Paper elevation={3} sx={{ p: 4 }}>
                     {/* Header Section */}

@@ -1,115 +1,78 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import _ from 'lodash';
-import { Alert, Grid, TextField } from '@mui/material';
-import Description from './Descriptions';
+import React from 'react';
+import { Alert, Button, TextField } from '@mui/material';
 
-
-
-interface FormInputProps {
-    input: Record<string, any>; 
-    section: any[]; 
-    update: any;
-    id: number;
+interface DescriptionProps {
+    sectionName: string;
+    index: number;
     name: string;
+    section: { [key: string]: any }[];
+    update: (index: number, section: any) => void;
 }
 
-export default function FormInput(props: FormInputProps) {
-    // console.log("forminput",props);
-    const [errorText, setErrorText] = React.useState<Record<string, string>>({});
-    const [minSize, setMinSize] = React.useState(50);
-    const [localSection, setLocalSection] = useState(props.section[props.id]);
+const Description: React.FC<DescriptionProps> = ({ sectionName, index, name, section, update }) => {
+    const [lines, setLines] = React.useState<string[]>(section[index][name] || []);
+    const [errorText, setErrorText] = React.useState<Record<number, string>>({});
 
-
-    // useEffect(() => {
-    //     setLocalSection(props.section[props.id]);
-    // }, [props.section, props.id]);
-
-    const validateInput = (id: string, name: string, input: string) => {
+    const validateInput = (id: number, input: string) => {
         let errorMessage = '';
-        if (name === 'gpa') {
-            if (input.length < 1) errorMessage = 'Too Small Input';
-            else if (input.length > 5) errorMessage = 'Too Large Input';
-        } else if (name === 'projectName') {
-            if (input.length < 3) errorMessage = 'Too Small Input';
-            else if (input.length > 100) errorMessage = 'Too Large Input';
-        } else if (name === 'keywords') {
-            const keywords = input.split(',');
-            setMinSize(4);
-            keywords.forEach(keyword => {
-                if (keyword.length < 4) setMinSize(keyword.length);
-            });
-            if (minSize < 4) errorMessage = 'Too Small Keyword';
-        } else {
-            if (input.length < 3) errorMessage = 'Too Small Input';
+        if (input.length < 3) {
+            errorMessage = 'Too Small Text';
+        } else if (input.length > 100) {
+            errorMessage = 'Too Large Text';
         }
-        setErrorText(prev => ({ ...prev, [id]: errorMessage }));
+        setErrorText((prev) => ({ ...prev, [id]: errorMessage }));
+    };
+
+    const addLine = () => {
+        const updatedLines = [...lines, ''];
+        setLines(updatedLines);
+        const updatedSection = { ...section[index], [name]: updatedLines };
+        update(index, updatedSection);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { id, name, value } = e.target;
-        validateInput(id, name, value);
-        const updatedValue = name === 'keywords' ? value.split(',') : value;
-        const updatedSection = { ...localSection, [name]: updatedValue };
-        console.log("updatedSection",updatedSection)
-        setLocalSection(updatedSection);
-        console.log("local",localSection,id)
-        console.log("id",id);
-        props.update(props.id, localSection);
-    };
+        const id = parseInt(e.target.id, 10);
+        const value = e.target.value;
+        validateInput(id, value);
 
-    const inputAttributes = (item: string) => {
-        const attributes = {
-            type: 'text',
-            shrink: false,
-        };
-        if (['date', 'startDate', 'endDate'].includes(item)) {
-            attributes.type = 'date';
-            attributes.shrink = true;
-        }
-        return attributes;
+        const updatedLines = [...lines];
+        updatedLines[id] = value;
+        setLines(updatedLines);
+
+        const updatedSection = { ...section[index], [name]: updatedLines };
+        update(index, updatedSection);
     };
 
     return (
         <React.Fragment>
-            <Grid container spacing={3}>
-                {
-                    Object.entries(props.input).map((name, idx) => (
-                        <Grid key={idx} item xs={12}>
-                            {name[0] === 'description' || name[0] === 'projectDescription' ? (
-                               
-                                <Description
-                                    sectionName={props.name}
-                                    section={props.section}
-                                    index={props.id}
-                                    name={name[0]}
-                                />
-                            ) : (
-                                <div>
-                                   
-                                    <TextField
-                                        id={`${name}-${idx}`}
-                                        name={name[0]}
-                                        label={(name[0] === 'keywords') ? (_.startCase(name[0]) + ' (separated by a `,`)') : _.startCase(name[0])}
-                                        value={localSection[name[0]] || ''}
-                                        onChange={handleChange}
-                                            type={inputAttributes(name[0]).type}
-                                            InputLabelProps={{
-                                                shrink: inputAttributes(name[0]).shrink || Boolean(localSection[name[0]]),
-                                            }}
-                                        error={Boolean(errorText[`${name}-${idx}`])}
-                                        fullWidth
-                                    />
-                                    {errorText[`${name}-${idx}`] && (
-                                        <Alert  severity="error">
-                                            {errorText[`${name}-${idx}`]}
-                                        </Alert>
-                                    )}
-                                </div>
-                            )}
-                        </Grid>
-                    ))
-                }
-            </Grid>
+            {lines.map((text, idx) => (
+                <div key={idx}>
+                    <TextField
+                        id={idx.toString()}
+                        name={idx.toString()}
+                        label={`Description Line ${idx + 1}`}
+                        value={text}
+                        onChange={handleChange}
+                        type="text"
+                        error={Boolean(errorText[idx])}
+                        fullWidth
+                    />
+                    {errorText[idx] && (
+                        <Alert severity="error">
+                            {errorText[idx]}
+                        </Alert>
+                    )}
+                </div>
+            ))}
+            <Button
+                onClick={addLine}
+                variant="contained"
+                color="primary"
+            >
+                +
+            </Button>
         </React.Fragment>
     );
-}
+};
+
+export default Description;
