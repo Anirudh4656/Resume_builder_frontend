@@ -11,6 +11,7 @@ import {
   LinkedIn as LinkedInIcon,
   GitHub as GitHubIcon,
   Twitter as TwitterIcon,
+  Tag,
 } from "@mui/icons-material";
 
 const Template2: React.FC = () => {
@@ -88,8 +89,7 @@ const Template2: React.FC = () => {
                 marginTop: "10px",
               }}
             >
-             
-                {resume.title ||"None"}
+              {resume.title || "None"}
             </Typography>
           </Box>
 
@@ -113,34 +113,30 @@ const Template2: React.FC = () => {
             >
               <Grid item>
                 <Chip
-                variant="outlined"
+                  variant="outlined"
                   icon={<LanguageIcon />}
                   label={resume.personal.website}
-                  
-                />
-              </Grid>
-              <Grid item>
-              <Chip
-                variant="outlined"
-                  icon={<LanguageIcon />}
-                  label={resume.personal.website}
-                  
-                />
-              </Grid>
-              <Grid item>
-              <Chip
-                variant="outlined"
-                  icon={<LanguageIcon />}
-                  label={resume.personal.website}
-                  
                 />
               </Grid>
               <Grid item>
                 <Chip
-                 variant="outlined"
+                  variant="outlined"
+                  icon={<LanguageIcon />}
+                  label={resume.personal.website}
+                />
+              </Grid>
+              <Grid item>
+                <Chip
+                  variant="outlined"
+                  icon={<LanguageIcon />}
+                  label={resume.personal.website}
+                />
+              </Grid>
+              <Grid item>
+                <Chip
+                  variant="outlined"
                   icon={<TwitterIcon />}
                   label={resume.personal.website}
-                  
                 />
               </Grid>
             </Grid>
@@ -151,10 +147,10 @@ const Template2: React.FC = () => {
       <Box
         sx={{
           display: "flex",
-          height:'87px',
+          height: "87px",
           gap: "2",
           margin: "0px 53px",
-          alignItem:'center',
+          alignItem: "center",
           borderBottom: "1px inset",
         }}
       >
@@ -212,9 +208,9 @@ const Template2: React.FC = () => {
                     maxWidth: "580px", //380
                   }}
                 >
-                  {education?.university || "University of delhi"} {education?.degree || "BE"}
+                  {education?.university || "University of delhi"}{" "}
+                  {education?.degree || "BE"}
                 </Typography>
-                
               </Box>
               <Box sx={{}}>
                 <Typography
@@ -283,7 +279,7 @@ const Template2: React.FC = () => {
                 sx={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent:'space-between'
+                  justifyContent: "space-between",
                   // maxWidth:"350px"
                 }}
               >
@@ -296,14 +292,14 @@ const Template2: React.FC = () => {
                     lineHeight: "19.6px", //12.6
                     fontWeight: "500",
                     color: "#334155",
-                    justifyContent: 'space-between',
+                    justifyContent: "space-between",
                     maxWidth: "580px", //380
                   }}
                 >
-                  {experience?.organisation || "75way technologies"} {experience?.title || "ASD"}
+                  {experience?.organisation || "75way technologies"}{" "}
+                  {experience?.title || "ASD"}
                 </Typography>
-              
-                
+
                 <Typography
                   variant="h4"
                   component="h4"
@@ -318,27 +314,26 @@ const Template2: React.FC = () => {
                   {`${experience.startDate || "0"}-${
                     experience.endDate || "0"
                   }`}
-                  </Typography>
+                </Typography>
               </Box>
               <Box sx={{}}>
-                
-
-                  <Box sx={{ display: "flex", gap: 1, marginTop: "10px" }}>
-                  
-                    {experience.keywords.map((keyword, index) => (
-                   <Chip label={keyword} sx={{
-                    backgroundColor: "#ECEFF1",
-                    color: "#455A64",
-                    "& .MuiChip-icon": { color: "#455A64" },
-                  }} />
+                <Box sx={{ display: "flex", gap: 1, marginTop: "10px" }}>
+                  {experience.keywords.map((keyword) => (
+                    <Chip
+                      label={keyword}
+                      sx={{
+                        backgroundColor: "#ECEFF1",
+                        color: "#455A64",
+                        "& .MuiChip-icon": { color: "#455A64" },
+                      }}
+                    />
                   ))}
-                  </Box>
-                  {experience.description.map((description, index) => (
-                     <Typography variant="body2" sx={{ marginBottom: "5px" }}>
-                     • {description}
-                   </Typography>
-                  ))}
-                
+                </Box>
+                {experience.description.map((description) => (
+                  <Typography variant="body2" sx={{ marginBottom: "5px" }}>
+                    • {description}
+                  </Typography>
+                ))}
               </Box>
             </Box>
           ))}
@@ -363,8 +358,8 @@ const Template2: React.FC = () => {
             component="h4"
             sx={{
               fontFamily: "Poppins",
-              fontSize: "20px", //14
-              lineHeight: "19.6px", //12.6
+              fontSize: "20px",
+              lineHeight: "19.6px", 
               fontWeight: "500",
               color: "#334155",
             }}
@@ -392,7 +387,7 @@ const Template2: React.FC = () => {
                 sx={{
                   display: "flex",
                   flexDirection: "row",
-                  // maxWidth:"350px"
+                
                 }}
               >
                 <Typography
@@ -400,18 +395,17 @@ const Template2: React.FC = () => {
                   component="h4"
                   sx={{
                     fontFamily: "Poppins",
-                    fontSize: "19px", //13
-                    lineHeight: "19.6px", //12.6
+                    fontSize: "19px", 
+                    lineHeight: "19.6px", 
                     fontWeight: "500",
                     color: "#334155",
-                    justifyContent: 'space-between',
-                    maxWidth: "580px", //380
+                    justifyContent: "space-between",
+                    maxWidth: "580px", 
                   }}
                 >
-                  {project?.projectName || "Resume Builder"} 
+                  {project?.projectName || "Resume Builder"}
                 </Typography>
-              
-                
+
                 <Typography
                   variant="h4"
                   component="h4"
@@ -422,30 +416,139 @@ const Template2: React.FC = () => {
                     fontWeight: "500",
                     color: "#334155",
                   }}
-                >
-                 
-                  </Typography>
+                ></Typography>
               </Box>
               <Box sx={{}}>
-                
-
-                  <Box sx={{ display: "flex", gap: 1, marginTop: "10px" }}>
+                <Box sx={{ display: "flex", gap: 1, marginTop: "10px" }}>
                   {project.keywords.map((keyword, index) => (
-                    <Chip label={keyword} sx={{
-                      backgroundColor: "#ECEFF1",
-                      color: "#455A64",
-                      "& .MuiChip-icon": { color: "#455A64" },
-                    }} />
+                    <Chip
+                      label={keyword}
+                      sx={{
+                        backgroundColor: "#ECEFF1",
+                        color: "#455A64",
+                        "& .MuiChip-icon": { color: "#455A64" },
+                      }}
+                    />
                   ))}
-                   
-                  
-                  </Box>
-                  {project.projectDescription.map((description, index) => (
-                    <Typography variant="body2" sx={{ marginBottom: "5px" }}>
-                      • {description}
-                    </Typography>
-                  ))}
+                </Box>
+                {project.projectDescription.map((description, index) => (
+                  <Typography variant="body2" sx={{ marginBottom: "5px" }}>
+                    • {description}
+                  </Typography>
+                ))}
+              </Box>
+            </Box>
+          ))}
+        </Box>
+      </Box>
+
+
+
+      <Box
+        sx={{
+          display: "flex",
+          gap: "2",
+          margin: "0px 53px",
+          borderBottom: "1px inset",
+        }}
+      >
+        <Box
+          sx={{
+            width: "115px",
+          }}
+        >
+          <Typography
+            variant="h4"
+            component="h4"
+            sx={{
+              fontFamily: "Poppins",
+              fontSize: "20px",
+              lineHeight: "19.6px", 
+              fontWeight: "500",
+              color: "#334155",
+            }}
+          >
+            Skills
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            flex: "1",
+            display: "flex",
+            flexDirection: "column",
+            gap: 1.2,
+          }}
+        >
+          {resume?.skills.map((skill, index) => (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: "column",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
                 
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  sx={{
+                    fontFamily: "Poppins",
+                    fontSize: "19px", 
+                    lineHeight: "19.6px", 
+                    fontWeight: "500",
+                    color: "#334155",
+                    justifyContent: "space-between",
+                    maxWidth: "580px", 
+                  }}
+                >
+                  {skill?.skillName || "Languages"}
+                </Typography>
+
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  sx={{
+                    fontFamily: "Poppins",
+                    fontSize: "15px", //10
+                    lineHeight: "19.6px",
+                    fontWeight: "500",
+                    color: "#334155",
+                  }}
+                ></Typography>
+              </Box>
+              <Box sx={{}}>
+                <Box sx={{ display: "flex", gap: 1, marginTop: "10px" }}>
+
+
+                 
+         {(skill.SubField).map((field)=>
+                    <Box>
+                   
+                      <Typography
+                  variant="h4"
+                  component="h4"
+                  sx={{
+                    fontFamily: "Poppins",
+                    fontSize: "15px", //10
+                    lineHeight: "19.6px",
+                    fontWeight: "500",
+                    color: "#334155",
+                  }}
+               
+                >
+                  {field.field}
+                </Typography>
+               
+                    </Box>
+         )}
+                </Box>
+               
               </Box>
             </Box>
           ))}
